@@ -1,132 +1,109 @@
-# ton-nft-ai
-Скрипт imageai.py автоматически создает NFT с AI-генерацией изображений на основе транзакций в сети TON. GetGems api.
-https://api.getgems.io/public-api/docs
+# 🤖 TON AI NFT Generator
 
-🎮 Как использовать
+**`imageai.py`** automatically creates NFTs with AI-generated images based on **transactions in the TON blockchain**, using the **GetGems API**.  
+📘 [GetGems API Documentation](https://api.getgems.io/public-api/docs)
 
-1. Запустите скрипт
+---
+
+## 🎮 How It Works
+
+This project allows anyone to mint AI-generated NFTs simply by sending a TON transaction with a text prompt.
+
+When a transaction >0.02 TON is detected, the script:
+1. Parses your comment (prompt)
+2. Generates an image using AI
+3. Uploads the image to file hosting
+4. Automatically mints an NFT on **GetGems**
+
+---
+
+## 🚀 Quick Start
+
+### 1️⃣ Run the Script
 
 ```bash
 python imageai.py
-```
-
-Вы увидите:
-
-```
-🚀 AI NFT Generator запущен!
-👛 Адрес кошелька: EQCP3m3nG7T6atRKXx53pDPhsbks--KvVNlrHqayKhMjKeCY (настраивайте сами)
-💡 Отправьте >0.02 TON с комментарием-промптом
-🤖 AI сгенерирует изображение и создаст NFT
+🚀 AI NFT Generator launched!
+👛 Wallet address: EQCP3m3nG7T6atRKXx53pDPhsbks--KvVNlrHqayKhMjKeCY (customizable)
+💡 Send >0.02 TON with a comment as your prompt
+🤖 The AI will generate an image and mint it as an NFT
 ============================================================
-```
+2️⃣ Send a Transaction
 
-2. Отправьте транзакцию
+Network: TON Testnet
 
-· Сеть: TON Testnet
-· Адрес: EQCP3m3nG7T6atRKXx53pDPhsbks--KvVNlrHqayKhMjKeCY
-· Минимальная сумма: 0.02 TON (для минта NFT)
-· Комментарий: Ваш промпт для AI-генерации
+Address: EQCP3m3nG7T6atRKXx53pDPhsbks--KvVNlrHqayKhMjKeCY
 
-3. Наблюдайте процесс
+Minimum Amount: 0.02 TON (for NFT minting)
 
-Скрипт автоматически:
+Comment: Your AI image prompt
 
-Обнаружит транзакцию
-Сгенерирует изображение через AI
-Загрузит изображение (через хостинг файлов)
-Создаст NFT
+3️⃣ Watch the Magic ✨
 
+The script automatically:
 
-🔧 Технический процесс
+Detects your transaction
 
-Последовательность работы:
+Generates an AI image
 
-```mermaid
+Uploads it to file hosting
+
+Mints an NFT and sends it to your wallet
+
 graph TD
-    A[Транзакция >0.02 TON] --> B[Парсинг промпта]
-    B --> C[AI Генерация изображения]
-    C --> D[Загрузка на хостинг]
-    D --> E[Минт NFT]
-    E --> F[Готовый NFT на адресе отправителя]
-```
+    A[Transaction >0.02 TON] --> B[Parse prompt]
+    B --> C[AI generates image]
+    C --> D[Upload to hosting]
+    D --> E[Mint NFT]
+    E --> F[NFT delivered to sender’s address]
 
-Детали этапов:
+⚙️ Step-by-Step Breakdown
+🕵️ 1. Transaction Monitoring
 
-1. Мониторинг транзакций
+Checks new transactions every 5 seconds
 
-· Проверяет новые транзакции каждые 5 секунд
-· Игнорирует суммы менее 0.02 TON
-· Использует TON Center API
-GetGems api
-2. AI Генерация
+Skips transactions <0.02 TON
 
-· API: NeuroImg.art
-· Модель: AniFlux-v4.1
-· Размер: 1024x1024 пикселей
-· Шаги: 25
-· Формат: PNG
+Uses TON Center API + GetGems API
 
-3. Загрузка изображений
+🎨 2. AI Image Generation
 
-·  Я Использую upload.py для загрузки
-· Сохраняю на хостинг файлов
-· Возвращает постоянную ссылку на фото от нейросети, так как нейросеть возвращает невалидную ссвлку для ммнта NFT
+API: NeuroImg.art
 
-4. Создание NFT
+Model: AniFlux-v4.1
 
-· Платформа: GetGems testnet/mainnet
-· Коллекция: Указанная в конфигурации
-· Атрибуты: Промпт, тип генератора
-· Владелец: Отправитель транзакции
+Resolution: 1024x1024 px
 
+Steps: 25
 
-📊 Логи работы
+Format: PNG
 
-Успешный процесс:
+📤 3. Image Uploading
 
-```
-📥 Найдено новых транзакций: 1
-🎯 Обрабатываем транзакцию: 0.03 TON, промпт: 'космический корабль'
-🎨 Генерируем изображение для промпта: 'космический корабль'
-🕒 В очереди: 2/8
-🎨 Генерация изображения...
-✅ Изображение готово!
-📥 Скачиваем изображение: https://ai-api.test/i/12345678.png
-✅ Изображение загружено: http://mysite.com/loads/abc123.png
-📦 Минтим NFT...
-✅ NFT успешно создан!
-🔗 Ссылка: https://testnet.getgems.io/collection/.../NFT_ADDRESS
-```
+Uses upload.py to upload AI-generated files
 
-Ошибки:
+Stores images on file hosting
 
-```
-❌ Сумма меньше 0.02 TON, пропускаем
-❌ Ошибка генерации: Network error
-❌ Ошибка загрузки: Invalid file type
-❌ HTTP ошибка: 400
-```
+Returns a permanent image link (AI’s raw link may not be valid for minting)
 
+🪙 4. NFT Minting
 
-🛠️ Требования
+Platform: GetGems (testnet/mainnet)
 
-Файлы проекта:
+Collection: Configurable in settings
 
-```
-project/
-├── imageai.py          # Основной скрипт
-├── upload.py           # Загрузчик изображений
-├── getgemsapi.py       # API для минта NFT
-└── transaction.py      # Мониторинг транзакций
-```
+Attributes: Includes prompt + generator type
 
-🎉 Примеры результатов
+Owner: Transaction sender
 
-После успешного выполнения вы получите NFT с:
-
-· Уникальным AI-изображением по вашему промпту
-· Метаданными с атрибутами генерации
-· Ссылкой на GetGems для просмотра
-· Владением на вашем кошельке
-
-Мой telegram: @pamblus
+📥 Found new transactions: 1
+🎯 Processing transaction: 0.03 TON, prompt: 'spaceship'
+🎨 Generating image for prompt: 'spaceship'
+🕒 Queue: 2/8
+🎨 Generating image...
+✅ Image ready!
+📥 Downloading image: https://ai-api.test/i/12345678.png
+✅ Uploaded: http://mysite.com/loads/abc123.png
+📦 Minting NFT...
+✅ NFT created successfully!
+🔗 View: https://testnet.getgems.io/collection/.../NFT_ADDRESS
